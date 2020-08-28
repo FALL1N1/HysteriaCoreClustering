@@ -1,0 +1,25 @@
+Search "SMSG" (9 hits in 1 file)
+  new 2 (9 hits)
+	Line 3: 	Line 963:     SMSG_VOICE_SESSION_ROSTER_UPDATE                = 0x39E,
+	Line 4: 	Line 964:     SMSG_VOICE_SESSION_LEAVE                        = 0x39F,
+	Line 5: 	Line 965:     SMSG_VOICE_SESSION_ADJUST_PRIORITY              = 0x3A0,
+	Line 7: 	Line 967:     SMSG_VOICE_SET_TALKER_MUTED                     = 0x3A2,
+	Line 9: 	Line 981:     SMSG_VOICE_SESSION_ENABLE                       = 0x3B0,
+	Line 10: 	Line 982:     SMSG_VOICE_PARENTAL_CONTROLS                    = 0x3B1,
+	Line 16: 	Line 1023:    SMSG_AVAILABLE_VOICE_CHANNEL                    = 0x3DA,
+	Line 19: 	Line 1032:    SMSG_VOICE_CHAT_STATUS                          = 0x3E3,
+	Line 20: 	Line 1057:    SMSG_VOICESESSION_FULL                          = 0x3FC,
+
+    
+    
+Search "CMSG" (9 hits in 1 file)
+  new 2 (9 hits)
+	Line 6: 	Line 966:     CMSG_VOICE_SET_TALKER_MUTED_REQUEST             = 0x3A1,
+	Line 8: 	Line 980:     CMSG_VOICE_SESSION_ENABLE                       = 0x3AF,
+	Line 11: 	Line 1009:     CMSG_CHANNEL_SILENCE_VOICE                      = 0x3CC,
+	Line 12: 	Line 1011:     CMSG_CHANNEL_UNSILENCE_VOICE                    = 0x3CE,
+	Line 13: 	Line 1016:     CMSG_SET_ACTIVE_VOICE_CHANNEL                   = 0x3D3,
+	Line 14: 	Line 1019:     CMSG_CHANNEL_VOICE_ON                           = 0x3D6,
+	Line 15: 	Line 1020:     CMSG_CHANNEL_VOICE_OFF                          = 0x3D7,
+	Line 17: 	Line 1024:     CMSG_ADD_VOICE_IGNORE                           = 0x3DB,
+	Line 18: 	Line 1025:     CMSG_DEL_VOICE_IGNORE                           = 0x3DC,

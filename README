@@ -1,0 +1,23 @@
+###The project is currently paused, no fixes will be pushed, only hotfixes like crashes, exploits, gamebreaking bugs etc will be fixed.
+
+
+# ProjectBalnazzar (master/3.3.5a)
+ 
+## Introduction
+
+ProjectBalnazzar is a *MMORPG* Framework based mostly in C++.
+
+It is derived from *TrinityCore* and *MaNGOS*, the *Massive Network Game Object Server*, and is
+based on the code of that project with extensive changes over time to optimize,
+improve and cleanup the codebase at the same time as improving the in-game
+mechanics and functionality. 
+
+## Requirements
+
+ACE ≥ 6.3.2
+MySQL ≥ 5.1.0 
+OpenSSL ≥ 1.0.x
+CMake ≥ 3.2.0
+
+GCC ≥ 6.2.0
+MVC(Visual Studio) ≥ 15 (2017)

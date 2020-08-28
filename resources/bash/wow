@@ -1,0 +1,373 @@
+#! /bin/bash
+THIS_FULLPATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd -P)/`basename "${BASH_SOURCE[0]}"`
+THIS_FOLDERPATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd -P)
+ 
+APATH=/home/wow/server/bin
+WPATH=/home/wow/server/bin
+ASRV_BIN=authserver             # Auth server
+PSRV_BIN=proxyserver            # Proxy server (node controller)
+WSRV_BIN=worldserver            # World (master node)
+# begin clustering
+OSRV_BIN=outland_node           # Outland node
+NSRV_BIN=northrend_node         # Northrend node
+KSRV_BIN=kalimdor_node          # Kalimdor node
+EKSRV_BIN=eastern_kingdoms_node # Eastern Kingdoms Node
+
+echo "run" > gdbcommands
+echo "shell echo -e \"\nCRASHLOG BEGIN\n\"" >> gdbcommands
+echo "info program" >> gdbcommands
+echo "shell echo -e \"\nBACKTRACE\n\"" >> gdbcommands
+echo "bt" >> gdbcommands
+echo "shell echo -e \"\nBACKTRACE FULL\n\"" >> gdbcommands
+echo "bt full" >> gdbcommands
+echo "shell echo -e \"\nTHREADS\n\"" >> gdbcommands
+echo "info threads" >> gdbcommands
+echo "shell echo -e \"\nTHREADS BACKTRACE\n\"" >> gdbcommands
+echo "thread apply all bt full" >> gdbcommands
+
+DEBUG=true
+
+#AUTH FUNCTIONS
+startAuth()
+{
+    if [ "$(screen -ls | grep $ASRV_BIN)" ]
+    then
+        echo $ASRV_BIN is already running
+    else
+        cd $APATH
+        screen -AmdS $ASRV_BIN $THIS_FULLPATH $ASRV_BIN
+        echo $ASRV_BIN is alive
+    fi
+}
+
+stopAuth()
+{
+    screen -S $ASRV_BIN -X kill &>/dev/null
+    echo $ASRV_BIN is dead
+}
+
+restartAuth()
+{
+    stopAuth
+    startAuth
+    echo $ASRV_BIN restarted
+} 
+
+#MASTER Proxy NODE FUNCTIONS
+startProxy()
+{
+    if [ "$(screen -ls | grep $PSRV_BIN)" ]
+    then
+        echo $PSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $PSRV_BIN $THIS_FULLPATH $PSRV_BIN $DEBUG
+        echo $PSRV_BIN is alive
+    fi
+}
+
+restartProxy()
+{
+    screen -S $PSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $PSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopProxy()
+{
+    screen -S $PSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $PSRV_BIN
+    sleep 5
+    screen -S $PSRV_BIN -X kill &>/dev/null
+    echo $PSRV_BIN is dead
+}
+
+#MASTER WORLD NODE FUNCTIONS
+startWorld()
+{
+    if [ "$(screen -ls | grep $WSRV_BIN)" ]
+    then
+        echo $WSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $WSRV_BIN $THIS_FULLPATH $WSRV_BIN $DEBUG
+        echo $WSRV_BIN is alive
+    fi
+}
+
+restartWorld()
+{
+    screen -S $WSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $WSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopWorld()
+{
+    screen -S $WSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $WSRV_BIN
+    sleep 5
+    screen -S $WSRV_BIN -X kill &>/dev/null
+    echo $WSRV_BIN is dead
+}
+
+#MASTER Outland NODE FUNCTIONS
+startOutland()
+{
+    if [ "$(screen -ls | grep $OSRV_BIN)" ]
+    then
+        echo $OSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $OSRV_BIN $THIS_FULLPATH $OSRV_BIN $DEBUG
+        echo $OSRV_BIN is alive
+    fi
+}
+
+restartOutland()
+{
+    screen -S $OSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $OSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopOutland()
+{
+    screen -S $OSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $OSRV_BIN
+    sleep 5
+    screen -S $OSRV_BIN -X kill &>/dev/null
+    echo $OSRV_BIN is dead
+}
+
+#MASTER Northrend NODE FUNCTIONS
+startNorthrend()
+{
+    if [ "$(screen -ls | grep $NSRV_BIN)" ]
+    then
+        echo $NSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $NSRV_BIN $THIS_FULLPATH $NSRV_BIN $DEBUG
+        echo $NSRV_BIN is alive
+    fi
+}
+
+restartNorthrend()
+{
+    screen -S $NSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $NSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopNorthrend()
+{
+    screen -S $NSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $NSRV_BIN
+    sleep 5
+    screen -S $NSRV_BIN -X kill &>/dev/null
+    echo $NSRV_BIN is dead
+}
+
+#MASTER Kalimdor NODE FUNCTIONS
+startKalimdor()
+{
+    if [ "$(screen -ls | grep $KSRV_BIN)" ]
+    then
+        echo $KSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $KSRV_BIN $THIS_FULLPATH $KSRV_BIN $DEBUG
+        echo $KSRV_BIN is alive
+    fi
+}
+
+restartKalimdor()
+{
+    screen -S $KSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $KSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopKalimdor()
+{
+    screen -S $KSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $KSRV_BIN
+    sleep 5
+    screen -S $KSRV_BIN -X kill &>/dev/null
+    echo $KSRV_BIN is dead
+}
+
+#MASTER EasternKingodms NODE FUNCTIONS
+startEasternKingodms()
+{
+    if [ "$(screen -ls | grep $EKSRV_BIN)" ]
+    then
+        echo $EKSRV_BIN is already running
+    else
+        cd $WPATH
+        screen -AmdS $EKSRV_BIN $THIS_FULLPATH $EKSRV_BIN $DEBUG
+        echo $EKSRV_BIN is alive
+    fi
+}
+
+restartEasternKingodms()
+{
+    screen -S $EKSRV_BIN -X stuff "saveall$(printf \\r)"
+    echo saved all characters, and server restart initialized
+    screen -S $EKSRV_BIN -X stuff "server restart 5$(printf \\r)"
+}
+
+stopEasternKingodms()
+{
+    screen -S $EKSRV_BIN -X stuff "saveall
+    "
+    echo saveall sent, waiting 5 seconds to kill $EKSRV_BIN
+    sleep 5
+    screen -S $EKSRV_BIN -X kill &>/dev/null
+    echo $EKSRV_BIN is dead
+}
+
+# master world node
+case "$1" in
+    
+    
+    #Auth - no gdb
+    $ASRV_BIN )
+        while x=1;
+        do
+            ./$ASRV_BIN
+            NOW=$(date +"%s-%d-%m-%Y")
+            echo $NOW $ASRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            sleep 1
+        done
+    ;;
+    
+    #Proxy - gdb
+    $PSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$PSRV_BIN --batch -x gdbcommands | tee current_auth
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_auth $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $PSRV_BIN
+            echo $NOW $PSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    #World master - gdb
+    $WSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$WSRV_BIN --batch -x gdbcommands | tee current_world
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_world $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $WSRV_BIN
+            echo $NOW $WSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    #Outland - gdb
+    $OSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$OSRV_BIN --batch -x gdbcommands | tee current_outland
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_outland $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $OSRV_BIN
+            echo $NOW $OSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    #Northrend - gdb
+    $NSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$NSRV_BIN --batch -x gdbcommands | tee current_northrend
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_northrend $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $NSRV_BIN
+            echo $NOW $NSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    #Kalimdor - gdb
+    $KSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$KSRV_BIN --batch -x gdbcommands | tee current_kalimdor
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_kalimdor $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $KSRV_BIN
+            echo $NOW $KSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    #Eastern Kingdoms - gdb
+    $EKSRV_BIN )
+        while x=1;
+        do
+            gdb $WPATH/$EKSRV_BIN --batch -x gdbcommands | tee current_eastern_kingdoms
+            NOW=$(date +"%s-%d-%m-%Y")
+            mkdir -p $THIS_FOLDERPATH/crashes
+            mv current_eastern_kingdoms $THIS_FOLDERPATH/crashes/$NOW.log &>/dev/null
+            killall -9 $EKSRV_BIN
+            echo $NOW $EKSRV_BIN stopped, restarting! | tee -a $THIS_FULLPATH.log
+            echo crashlog available at: $THIS_FOLDERPATH/crashes/$NOW.log
+            sleep 1
+        done
+    ;;
+    
+    "start" )
+    startAuth
+    startProxy
+    startWorld
+    startOutland
+    startNorthrend
+    startKalimdor
+    startEasternKingodms
+    ;;
+    "stop" )
+    stopAuth
+    stopProxy
+    stopWorld
+    stopOutland
+    stopNorthrend
+    stopKalimdor
+    stopEasternKingodms
+    ;;
+    "restart" )
+    restartAuth
+    restartProxy
+    restartWorld
+    restartOutland
+    restartNorthrend
+    restartKalimdor
+    restartEasternKingodms
+    ;;
+    * )
+    echo Your argument is invalid, please use one of the following:
+    echo "./wow start | ./wow stop | ./wow restart"
+    exit 1
+    ;;
+esac

@@ -1,0 +1,27 @@
+[x] SPEED
+[x] FLYING
+[x] SWIM SPEED
+[x] MULTIJUMP
+[x] WPE / Packet Inject
+[x] Opcode Flood
+[x] Addon: Teleport back the user to latest safe position if he used cheats.
+[x] Addon: Block completely flying hack.
+[x] NO FALLING
+[x] SLOW FALLING
+[x] LOW GRAVITY
+[x] WATERWALKING
+[x] WALL CLIMBING
+[x] Freeze z coord
+[x] Faction Hack
+[x] Authserver packet flood - preventing players from logging in
+[x] Authserver password exploit (they could login with anyone's account)
+[x] WALL CLIMBING WITH "freeze z coord"
+
+-- not done yet
+[] NO CLIP -- i don't think this could be handled trough the server as we can't check wmo/m2 objects, can we?
+[] TRACKING (could be undetectable? / sending tracking flags if not hunter?)
+
+
+---------------------
+[x] - done
+[] - not done

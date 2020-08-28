@@ -1,0 +1,53 @@
+#main
+iptables -A INPUT -p tcp --dport 1723 -j DROP
+iptables -A INPUT -p tcp --dport 143 -j DROP
+iptables -A INPUT -p tcp --dport 110 -j DROP
+iptables -A INPUT -p tcp --dport 25 -j DROP
+iptables -A INPUT -p tcp --dport 21 -s 149.202.65.26 -j DROP
+
+# lock 8085 and 3724 (auth/proxy)
+iptables -A INPUT -p tcp --dport 3724 -d 147.135.201.224 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 3724 -d 147.135.201.224 -j ACCEPT
+
+iptables -A INPUT -p tcp --dport 8085 -d 147.135.201.224 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 8085 -d 147.135.201.224 -j ACCEPT
+
+
+# node 1
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8086 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8086 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9096 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9096 -d 147.135.201.224 -j ACCEPT
+
+# node 2
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8087 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8087 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9097 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9097 -d 147.135.201.224 -j ACCEPT
+
+# node 3
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8088 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8088 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9098 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9098 -d 147.135.201.224 -j ACCEPT
+
+# node 4
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8089 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8089 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9099 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9099 -d 147.135.201.224 -j ACCEPT
+
+# node 5
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8090 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 8090 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9100 -d 147.135.201.224 -j ACCEPT
+iptables -A INPUT -p tcp -s 147.135.201.224 --dport 9100 -d 147.135.201.224 -j ACCEPT
+
+iptables -A INPUT -p tcp --dport 80 -d 147.135.201.224 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 80 -d 147.135.201.224 -j ACCEPT
+
+iptables -A INPUT -p tcp --syn --dport 3724 -m connlimit --connlimit-above 3 --connlimit-mask 32 -j DROP
+iptables -A INPUT -p tcp --syn --dport 8085 -m connlimit --connlimit-above 3 --connlimit-mask 32 -j DROP
+iptables -A INPUT -p tcp --syn --dport 80 -m connlimit --connlimit-above 5 --connlimit-mask 32 -j DROP
+
+iptables -A INPUT -p tcp -d 147.135.201.224 -j DROP 
